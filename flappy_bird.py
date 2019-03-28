@@ -1,6 +1,10 @@
 from PIL import Image
 import time
 import random
+import sys
+import cv2
+import numpy
+import keyboard
 
 # **************** Initialize assets ****************
 
@@ -15,7 +19,10 @@ BASEY        = int(SCREENHEIGHT * 0.79)
 IMAGES, SOUNDS, HITMASKS = {}, {}, {}
 
 # ditance between two pipes
-PIPEOFFSET = SCREENWIDTH / 2
+PIPEOFFSET = SCREENWIDTH / 2 + SCREENWIDTH / 8
+
+# bird x position
+BIRDHORZ = 50
 
 # list of all possible players (tuple of 3 positions of flap)
 PLAYERS_LIST = (
@@ -72,6 +79,8 @@ IMAGES['message'] = 'assets/sprites/message.png'
 # base (ground) sprite
 IMAGES['base'] = 'assets/sprites/base.png'
 
+PIPE_WIDTH = Image.open(PIPES_LIST[0]).size[1]
+
 # **************** Show score on screen ****************
 
 def add_score(score, frame):
@@ -124,10 +133,8 @@ def get_pipe(gapY):
 
 # **************** Final Frame Function ****************
 
-def get_frame(background_index, bird_index, pipe_index, hole_1, hole_2, base_offset, bird_pos, pipe_pos, score):
+def get_frame(background_index, bird_index, pipe_index, hole_1, hole_2, hole_3, base_offset, bird_pos, pipe_pos, reached, score):
     frame = Image.open(BACKGROUNDS_LIST[background_index])
-    bird = Image.open(PLAYERS_LIST[bird_index][2])
-    frame.paste(bird, (50,bird_pos), bird)
 
     IMAGES['pipe'] = (
         Image.open(PIPES_LIST[pipe_index]).rotate(180),
@@ -136,30 +143,109 @@ def get_frame(background_index, bird_index, pipe_index, hole_1, hole_2, base_off
 
     pipe_1 = get_pipe(hole_1)
     pipe_2 = get_pipe(hole_2)
+    pipe_3 = get_pipe(hole_3)
     
+    offset = PIPEOFFSET
+
+    if not reached:
+        offset = -1000
+
     up_pipes = [
         {'x': SCREENWIDTH - pipe_pos, 'y': pipe_1[0]['y']},
-        {'x': SCREENWIDTH - pipe_pos - PIPEOFFSET, 'y': pipe_2[0]['y']},
+        {'x': SCREENWIDTH - pipe_pos - offset, 'y': pipe_2[0]['y']},
+        {'x': SCREENWIDTH - pipe_pos - 2*offset, 'y': pipe_3[0]['y']},
     ]
 
     low_pipes = [
         {'x': SCREENWIDTH - pipe_pos, 'y': pipe_1[1]['y']},
-        {'x': SCREENWIDTH - pipe_pos - PIPEOFFSET, 'y': pipe_2[1]['y']},
+        {'x': SCREENWIDTH - pipe_pos - offset, 'y': pipe_2[1]['y']},
+        {'x': SCREENWIDTH - pipe_pos - 2*offset, 'y': pipe_3[1]['y']},
     ]
 
     for u_p, l_p in zip(up_pipes, low_pipes):
         frame.paste(IMAGES['pipe'][0], (int(u_p['x']), int(u_p['y'])),IMAGES['pipe'][0])
         frame.paste(IMAGES['pipe'][1], (int(l_p['x']), int(l_p['y'])),IMAGES['pipe'][1])
 
+    bird = Image.open(PLAYERS_LIST[bird_index][2])
+    frame.paste(bird, (50,bird_pos), bird)
     frame = add_score(score, frame)
     frame.paste(Image.open(IMAGES['base']), (-10*base_offset, BASEY),Image.open(IMAGES['base']))
 
     return frame
 
 # **************** Testing Frame Function ****************
+frame = Image.open(BACKGROUNDS_LIST[0])
+message = Image.open(IMAGES['message'])
+frame.paste(message, (int(SCREENWIDTH/2 - message.size[0]/2), int(SCREENHEIGHT/2 - message.size[1]/2)), message)
 
-frame = get_frame(0,2,0,120,90,2,240,120,239)
-frame.show()
+frame.save('frame.png')
+
+imageSource = 'frame.png'
+image = cv2.imread(imageSource)
+if image is not None:
+    cv2.imshow('image',image)
+elif image is None:
+    print ("Error loading image")
+
+k = cv2.waitKey(0)
+
+bird_pos = 200
+base_pos = 1
+pipe_pos = -100
+score = 0
+hole_1 = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+hole_2 = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+hole_3 = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+reached = False
+flap = False
+score_start = 0
+while(True):
+
+    if cv2.waitKey(50) == ord('c'):
+        flap = True
+
+    frame = get_frame(0,2,0,hole_1,hole_2,hole_3, base_pos, bird_pos, pipe_pos, reached, score)
+    
+    bird_pos += 8
+    bird_pos = bird_pos%SCREENHEIGHT
+    bird_pos = min(380, bird_pos)
+ 
+    base_pos += 1
+    base_pos = base_pos%5
+    pipe_inc = 10
+    pipe_pos += pipe_inc
+    if(pipe_pos > 0):
+
+        a = pipe_pos%PIPEOFFSET
+        if(a < pipe_pos):
+            temp = hole_1
+            hole_1 = hole_3
+            hole_3 = hole_2
+            hole_2 = temp
+            hole_3 = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+            reached = True
+
+        if a > BIRDHORZ and a <= BIRDHORZ  + pipe_inc and score_start > 10:
+            score += 1
+        else:
+            score_start += 1
+        pipe_pos = a
+
+    frame.save('frame.png')
+
+    imageSource = 'frame.png'
+    image = cv2.imread(imageSource)
+    if image is not None:
+        cv2.imshow('image',image)
+    elif image is None:
+        print ("Error loading image")
+    if flap:
+        bird_pos -= 50
+        print('JUMP')
+        flap = False
+
+
+
 
 # **************** Main Game Scratch ****************
 
@@ -182,7 +268,7 @@ frame.show()
 # )
 
 # # get 2 new pipes to add to upperPipes lowerPipes list
-# # for third pipe its 2*PIPOFFSET
+# # for third pipe its 2*PIPEOFFSET
 # hole = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
 # newPipe1 = get_pipe(hole)
 
@@ -231,3 +317,4 @@ frame.show()
 # background.paste(Image.open(IMAGES['base']), (-10*int((time.time()-start)%3), BASEY),Image.open(IMAGES['base']))
 
 # background.show()
+
