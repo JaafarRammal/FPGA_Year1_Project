@@ -74,27 +74,27 @@ IMAGES['base'] = 'assets/sprites/base.png'
 
 # **************** Show score on screen ****************
 
-def showScore(score, SCREEN):
+def add_score(score, frame):
 
-    scoreDigits = [int(x) for x in list(str(score))]
-    totalWidth = 0 # total width of all numbers to be printed
+    score_digit = [int(x) for x in list(str(score))]
+    total_width = 0 # total width of all numbers to be printed
 
-    for digit in scoreDigits:
+    for digit in score_digit:
     	digit_image = Image.open(IMAGES['numbers'][digit])
-    	totalWidth += digit_image.size[0]
+    	total_width += digit_image.size[0]
 
-    Xoffset = (SCREENWIDTH - totalWidth) / 2
+    Xoffset = (SCREENWIDTH - total_width) / 2
 
-    for digit in scoreDigits:
+    for digit in score_digit:
     	digit_image = Image.open(IMAGES['numbers'][digit])
-    	SCREEN.paste(digit_image, (int(Xoffset), int(SCREENHEIGHT * 0.1)), digit_image)
+    	frame.paste(digit_image, (int(Xoffset), int(SCREENHEIGHT * 0.1)), digit_image)
     	Xoffset += digit_image.size[0]
 
-    return SCREEN
+    return frame
 
 # **************** Check for pixels collision ****************
 
-def pixelCollision(rect1, rect2, hitmask1, hitmask2):
+def pixel_collision(rect1, rect2, hitmask1, hitmask2):
     rect = rect1.clip(rect2)
 
     if rect.width == 0 or rect.height == 0:
@@ -109,80 +109,125 @@ def pixelCollision(rect1, rect2, hitmask1, hitmask2):
                 return True
     return False
 
-# **************** Generate Random Pipe ****************
+# **************** Generate Pipe ****************
 
-def getRandomPipe():
-    # y of gap between upper and lower pipe
-    gapY = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+def get_pipe(gapY):
+
     gapY += int(BASEY * 0.2)
-    pipeHeight = IMAGES['pipe'][0].size[1]
+    pipe_height = IMAGES['pipe'][0].size[1]
     pipeX = SCREENWIDTH + 10
 
     return [
-        {'x': pipeX, 'y': gapY - pipeHeight},  # upper pipe
+        {'x': pipeX, 'y': gapY - pipe_height},  # upper pipe
         {'x': pipeX, 'y': gapY + PIPEGAPSIZE}, # lower pipe
     ]
 
-# **************** Main Game ****************
+# **************** Final Frame Function ****************
+
+def get_frame(background_index, bird_index, pipe_index, hole_1, hole_2, base_offset, bird_pos, pipe_pos, score):
+    frame = Image.open(BACKGROUNDS_LIST[background_index])
+    bird = Image.open(PLAYERS_LIST[bird_index][2])
+    frame.paste(bird, (50,bird_pos), bird)
+
+    IMAGES['pipe'] = (
+        Image.open(PIPES_LIST[pipe_index]).rotate(180),
+        Image.open(PIPES_LIST[pipe_index])
+    )
+
+    pipe_1 = get_pipe(hole_1)
+    pipe_2 = get_pipe(hole_2)
+    
+    up_pipes = [
+        {'x': SCREENWIDTH - pipe_pos, 'y': pipe_1[0]['y']},
+        {'x': SCREENWIDTH - pipe_pos - PIPEOFFSET, 'y': pipe_2[0]['y']},
+    ]
+
+    low_pipes = [
+        {'x': SCREENWIDTH - pipe_pos, 'y': pipe_1[1]['y']},
+        {'x': SCREENWIDTH - pipe_pos - PIPEOFFSET, 'y': pipe_2[1]['y']},
+    ]
+
+    for u_p, l_p in zip(up_pipes, low_pipes):
+        frame.paste(IMAGES['pipe'][0], (int(u_p['x']), int(u_p['y'])),IMAGES['pipe'][0])
+        frame.paste(IMAGES['pipe'][1], (int(l_p['x']), int(l_p['y'])),IMAGES['pipe'][1])
+
+    frame = add_score(score, frame)
+    frame.paste(Image.open(IMAGES['base']), (-10*base_offset, BASEY),Image.open(IMAGES['base']))
+
+    return frame
+
+# **************** Testing Frame Function ****************
+
+frame = get_frame(0,2,0,120,90,2,240,120,239)
+frame.show()
+
+# **************** Main Game Scratch ****************
 
 # **** Bird display test ****
 
-background = Image.open(BACKGROUNDS_LIST[1])
-bird = Image.open(PLAYERS_LIST[2][2])
-background.paste(bird, (50,int(SCREENHEIGHT/2)), bird)
+# background_index = 0
+# bird_index = 2
 
-# **** Pipes display test ****
+# background = Image.open(BACKGROUNDS_LIST[background_index])
+# bird = Image.open(PLAYERS_LIST[bird_index][2])
+# background.paste(bird, (50,int(SCREENHEIGHT/2)), bird)
 
-IMAGES['pipe'] = (
-    Image.open(PIPES_LIST[1]).rotate(180),
-	Image.open(PIPES_LIST[1])
-)
+# # **** Pipes display test ****
 
-# get 2 new pipes to add to upperPipes lowerPipes list
-# for third pipe its 2*PIPOFFSET
-newPipe1 = getRandomPipe()
-newPipe2 = getRandomPipe()
+# pipe_index = 0
 
-position = 10
+# IMAGES['pipe'] = (
+#     Image.open(PIPES_LIST[pipe_index]).rotate(180),
+# 	Image.open(PIPES_LIST[pipe_index])
+# )
 
-# list of upper pipes
-upperPipes = [
-    {'x': SCREENWIDTH - position, 'y': newPipe1[0]['y']},
-    {'x': SCREENWIDTH - position - PIPEOFFSET, 'y': newPipe2[0]['y']},
-]
+# # get 2 new pipes to add to upperPipes lowerPipes list
+# # for third pipe its 2*PIPOFFSET
+# hole = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+# newPipe1 = get_pipe(hole)
 
-# list of lowerpipe
-lowerPipes = [
-    {'x': SCREENWIDTH - position, 'y': newPipe1[1]['y']},
-    {'x': SCREENWIDTH - position - PIPEOFFSET, 'y': newPipe2[1]['y']},
-]
+# hole = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
+# newPipe2 = get_pipe(hole)
 
-for uPipe, lPipe in zip(upperPipes, lowerPipes):
-    background.paste(IMAGES['pipe'][0], (int(uPipe['x']), int(uPipe['y'])),IMAGES['pipe'][0])
-    background.paste(IMAGES['pipe'][1], (int(lPipe['x']), int(lPipe['y'])),IMAGES['pipe'][1])
+# position = 30
 
-# **** Some animation ****
+# # list of upper pipes
+# upperPipes = [
+#     {'x': SCREENWIDTH - position, 'y': newPipe1[0]['y']},
+#     {'x': SCREENWIDTH - position - PIPEOFFSET, 'y': newPipe2[0]['y']},
+# ]
 
-pipeVelX = -4
+# # list of lowerpipe
+# lowerPipes = [
+#     {'x': SCREENWIDTH - position, 'y': newPipe1[1]['y']},
+#     {'x': SCREENWIDTH - position - PIPEOFFSET, 'y': newPipe2[1]['y']},
+# ]
 
-# player velocity, max velocity, downward accleration, accleration on flap
-playerVelY    =  -9   # player's velocity along Y, default same as playerFlapped
-playerMaxVelY =  10   # max vel along Y, max descend speed
-playerMinVelY =  -8   # min vel along Y, max ascend speed
-playerAccY    =   1   # players downward accleration
-playerRot     =  45   # player's rotation
-playerVelRot  =   3   # angular speed
-playerRotThr  =  20   # rotation threshold
-playerFlapAcc =  -9   # players speed on flapping
-playerFlapped = False # True when player flaps
+# for uPipe, lPipe in zip(upperPipes, lowerPipes):
+#     background.paste(IMAGES['pipe'][0], (int(uPipe['x']), int(uPipe['y'])),IMAGES['pipe'][0])
+#     background.paste(IMAGES['pipe'][1], (int(lPipe['x']), int(lPipe['y'])),IMAGES['pipe'][1])
+
+# # **** Some animation ****
+
+# pipeVelX = -4
+
+# # player velocity, max velocity, downward accleration, accleration on flap
+# playerVelY    =  -9   # player's velocity along Y, default same as playerFlapped
+# playerMaxVelY =  10   # max vel along Y, max descend speed
+# playerMinVelY =  -8   # min vel along Y, max ascend speed
+# playerAccY    =   1   # players downward accleration
+# playerRot     =  45   # player's rotation
+# playerVelRot  =   3   # angular speed
+# playerRotThr  =  20   # rotation threshold
+# playerFlapAcc =  -9   # players speed on flapping
+# playerFlapped = False # True when player flaps
 
 
 
-# **** Score and base display test ****
+# # **** Score and base display test ****
 
-start = time.time()
-showScore(101, background)
-background.paste(Image.open(IMAGES['base']), (-10*int((time.time()-start)%3), BASEY),Image.open(IMAGES['base']))
+# start = time.time()
+# showScore(101, background)
+# background.paste(Image.open(IMAGES['base']), (-10*int((time.time()-start)%3), BASEY),Image.open(IMAGES['base']))
 
-background.show()
-
+# background.show()
