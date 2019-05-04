@@ -55,8 +55,6 @@ void flap_detector(volatile uint32_t* in_hand, volatile uint32_t* in_game, volat
 	////////////////////////////////////////////////////
 	///////////////HAND POSITION DETECTION//////////////
 	////////////////////////////////////////////////////
-	int total_height = 0;
-	int pixel_number = 0;
 
 	int previous_mean_height = *mean_height;
 
