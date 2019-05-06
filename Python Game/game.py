@@ -51,57 +51,57 @@ BIRDHORZ = 230
 PLAYERS_LIST = (
     # red bird
     (
-        'assets_1920_1080/sprites/redbird-upflap.png',
-        'assets_1920_1080/sprites/redbird-midflap.png',
-        'assets_1920_1080/sprites/redbird-downflap.png',
+        'assets/redbird-upflap.png',
+        'assets/redbird-midflap.png',
+        'assets/redbird-downflap.png',
     ),
     # blue bird
     (
-        'assets_1920_1080/sprites/bluebird-upflap.png',
-        'assets_1920_1080/sprites/bluebird-midflap.png',
-        'assets_1920_1080/sprites/bluebird-downflap.png',
+        'assets/bluebird-upflap.png',
+        'assets/bluebird-midflap.png',
+        'assets/bluebird-downflap.png',
     ),
     # yellow bird
     (
-        'assets_1920_1080/sprites/yellowbird-upflap.png',
-        'assets_1920_1080/sprites/yellowbird-midflap.png',
-        'assets_1920_1080/sprites/yellowbird-downflap.png',
+        'assets/yellowbird-upflap.png',
+        'assets/yellowbird-midflap.png',
+        'assets/yellowbird-downflap.png',
     ),
 )
 
 # list of backgrounds assets
 BACKGROUNDS_LIST = (
-    'assets_1920_1080/sprites/background-day.png',
-    'assets_1920_1080/sprites/background-night.png',
+    'assets/background-day.png',
+    'assets/background-night.png',
 )
 
 # list of pipes assets
 PIPES_LIST = (
-    'assets_1920_1080/sprites/pipe-green.png',
-    'assets_1920_1080/sprites/pipe-red.png',
+    'assets/pipe-green.png',
+    'assets/pipe-red.png',
 )
 
 # numbers assets for score display
 IMAGES['numbers'] = (
-    'assets_1920_1080/sprites/0.png',
-	'assets_1920_1080/sprites/1.png',
-	'assets_1920_1080/sprites/2.png',
-	'assets_1920_1080/sprites/3.png',
-	'assets_1920_1080/sprites/4.png',
-	'assets_1920_1080/sprites/5.png',
-	'assets_1920_1080/sprites/6.png',
-	'assets_1920_1080/sprites/7.png',
-	'assets_1920_1080/sprites/8.png',
-	'assets_1920_1080/sprites/9.png'
+    'assets/0.png',
+    'assets/1.png',
+    'assets/2.png',
+    'assets/3.png',
+    'assets/4.png',
+    'assets/5.png',
+    'assets/6.png',
+    'assets/7.png',
+    'assets/8.png',
+    'assets/9.png'
 )
 
 # game over asset
-IMAGES['gameover'] = 'assets_1920_1080/sprites/gameover.png'
+IMAGES['gameover'] = 'assets/sprites/gameover.png'
 
 # message asset for welcome screen
-IMAGES['message'] = 'assets_1920_1080/sprites/message.png'
+IMAGES['message'] = 'assets/sprites/message.png'
 # base (ground) asset
-IMAGES['base'] = 'assets_1920_1080/sprites/base.png'
+IMAGES['base'] = 'assets/sprites/base.png'
 
 # pipe dimensions
 PIPE_WIDTH, PIPEHEIGHT = Image.open(PIPES_LIST[0]).size
