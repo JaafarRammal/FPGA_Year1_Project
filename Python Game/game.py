@@ -386,4 +386,6 @@ elif image is None:
 cv2.waitKey(0)
 # TEST (END)
 
+# **************** END OF CODE ****************
+
 
