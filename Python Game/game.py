@@ -155,6 +155,16 @@ def get_pipe(gapY):
 
 # **************** Final Frame Function ****************
 
+# background_index: day or night mode
+# bird_index: red, blue, or yellow bird
+# bird_form: wings up, middle, or down
+# pipe_index: green or red pipe
+# hole_1, hole_2, hole_3: holes Y-axis positions
+# bird_pos: bird vertical position
+# pipe_pos: first pipe X-axis position
+# reached: boolean to avoid ghost pipe error on gameover check
+# score: current score to be displayed
+
 def get_frame(background_index, bird_index, bird_form, pipe_index, hole_1, hole_2, hole_3, bird_pos, pipe_pos, reached, score):
     
     # load background
