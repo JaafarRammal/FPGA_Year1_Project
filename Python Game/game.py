@@ -311,20 +311,20 @@ while(not gameover):
     #update pipe position
     pipe_pos += pipe_inc
     
-	# display pipes
+    # display pipes
     if(pipe_pos > 0):
         a = pipe_pos%PIPEOFFSET
         if(a < pipe_pos):
-			# swap holes when a pipe disapears and rewind (like on a wheel)
+	    # swap holes when a pipe disapears and rewind (like on a wheel)
             temp = hole_1
             hole_1 = hole_3
             hole_3 = hole_2
             hole_2 = temp
 			
-			# replace the hole that disapeared with a new one
+	    # replace the hole that disapeared with a new one
             hole_3 = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
 			
-			# there is a pipe. Gameover can be checked now in get_frame
+	    # there is a pipe. Gameover can be checked now in get_frame
             reached = True
 
 		# update score
@@ -332,15 +332,15 @@ while(not gameover):
             score += 1
         else:
 			
-			# ghost pipe position (non-present pipe) can cause faulty
-			# score at start. Avoid by using a dummy variable
-			# to store the score
+	    # ghost pipe position (non-present pipe) can cause faulty
+	    # score at start. Avoid by using a dummy variable
+	    # to store the score
             score_start += 1
 			
-		# update pipe position
+	# update pipe position
         pipe_pos = a
 
-	# TEST (START)
+    # TEST (START)
     frame.save('frame_big.png')
     imageSource = 'frame_big.png'
     image = cv2.imread(imageSource)
@@ -348,9 +348,9 @@ while(not gameover):
         cv2.imshow('image',image)
     elif image is None:
         print ("Error loading image")
-	# TEST (END)
+    # TEST (END)
 		
-	# if flapped, push the bird up
+    # if flapped, push the bird up
     if flap:
         bird_pos -= 105
         flap = False
@@ -361,15 +361,15 @@ while(bird_pos < 802):
     bird_pos += 20
     frame, gameover = get_frame(BACKGROUND_IN, BIRD_IN, int(bird_form)%3,PIPE_IN,hole_1,hole_2,hole_3, min(bird_pos, 802), pipe_pos, reached, score)
     
-	# TEST (START)
-	frame.save('frame_big.png')
+    # TEST (START)
+    frame.save('frame_big.png')
     imageSource = 'frame_big.png'
     image = cv2.imread(imageSource)
     if image is not None:
         cv2.imshow('image',image)
     elif image is None:
         print ("Error loading image")
-	# TEST (END)
+    # TEST (END)
 
 # display gameover asset
 gameover_img = Image.open(IMAGES['gameover'])
