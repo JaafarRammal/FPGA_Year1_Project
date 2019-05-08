@@ -10,7 +10,6 @@ void flap_detector(volatile uint32_t* in_hand, volatile uint32_t* out_data, uint
 #pragma HLS INTERFACE s_axilite port=returns
 
 #pragma HLS INTERFACE m_axi depth=921600 port=in_hand offset=slave // This will NOT work for resolutions higher than 720p
-
 #pragma HLS INTERFACE m_axi depth=921600 port=out_data offset=slave
 
 	/*
@@ -42,10 +41,6 @@ void flap_detector(volatile uint32_t* in_hand, volatile uint32_t* out_data, uint
 				unsigned char in_r = current & 0xFF;
 				unsigned char in_g = (current >> 8) & 0xFF;
 				unsigned char in_b = (current >> 16) & 0xFF;
-
-				unsigned char out_r = 0;
-				unsigned char out_b = 0;
-				unsigned char out_g = 0;
 
 				if((in_g > (in_r + colour_threshold)) & (in_g > (in_b + colour_threshold))){
 
