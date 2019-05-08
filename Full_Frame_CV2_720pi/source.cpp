@@ -31,37 +31,37 @@ void flap_detector(volatile uint32_t* in_hand, volatile uint32_t* out_data, uint
 
 	int previous_mean_height = *mean_height;
 
-	// scan top-left quarter only
+	loop:for(int i = 0; i < 460799; i++){
 
-	for(int i = 0; i < 230400; i++){
+			if(i%1280 < 640){
 
-		unsigned int index = i + 640*(int)(i/640);
+				unsigned int current = in_hand[i];
 
-		unsigned int current = in_hand[index];
+				out_data[i] = current;
 
-		out_data[index] = current;
+				unsigned char in_r = current & 0xFF;
+				unsigned char in_g = (current >> 8) & 0xFF;
+				unsigned char in_b = (current >> 16) & 0xFF;
 
-		unsigned char in_r = current & 0xFF;
-		unsigned char in_g = (current >> 8) & 0xFF;
-		unsigned char in_b = (current >> 16) & 0xFF;
+				unsigned char out_r = 0;
+				unsigned char out_b = 0;
+				unsigned char out_g = 0;
 
-		unsigned char out_r = 0;
-		unsigned char out_b = 0;
-		unsigned char out_g = 0;
+				if((in_g > (in_r + colour_threshold)) & (in_g > (in_b + colour_threshold))){
 
-		if((in_g > (in_r + colour_threshold)) & (in_g > (in_b + colour_threshold))){
+					total_height += (720-i/1280); //i starts from the top, so the pixel height would be total height minus i;
+					pixel_number ++;
 
-			total_height += (720-(int)(i/1280)); //i starts from the top, so the pixel height would be total height minus i;
-			pixel_number ++;
+					out_data[i+460799] = 0xFFFFFF;
+				}
 
-			out_data[index+460800] = 0xFFFFFF;
+				else{
+					out_data[i+460799] = 0;
+				}
+			}
+
+
 		}
-
-		else{
-			out_data[index+460800] = 0;
-		}
-	}
-
 	*mean_height = total_height / pixel_number;
 
 	////////////////////////////////////////////////////
