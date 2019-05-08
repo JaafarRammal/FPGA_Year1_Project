@@ -64,7 +64,6 @@ int main() {
 	cv::imwrite("/home/jr4918/hd_test/final.jpg",out_src);
 
 	free(hand_im);
-	free(game_im);
 	free(out_im);
 
 	return 0;
