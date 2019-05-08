@@ -54,11 +54,11 @@ void flap_detector(volatile uint32_t* in_hand, volatile uint32_t* out_data, uint
 			total_height += (720-(int)(i/1280)); //i starts from the top, so the pixel height would be total height minus i;
 			pixel_number ++;
 
-			out_data[index] = 0xFFFFFF;
+			out_data[index+460800] = 0xFFFFFF;
 		}
 
 		else{
-			out_data[index] = 0;
+			out_data[index+460800] = 0;
 		}
 	}
 
