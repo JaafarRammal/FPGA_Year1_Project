@@ -267,7 +267,7 @@ k = cv2.waitKey(0)
 # not gameover
 gameover = False 
 
-# bird horizontal position
+# bird vertical position
 bird_pos = 400
 
 # bird wings position (up, middle, down)
@@ -283,7 +283,7 @@ score = 0
 # pipe horizontal speed
 pipe_inc = 30 #PARAM
 
-# bird vertical speed
+# bird vertical down-speed
 bird_inc = 17 #PARAM
 
 # holes
@@ -295,7 +295,7 @@ hole_3 = random.randrange(0, int(BASEY * 0.6 - PIPEGAPSIZE))
 BIRD_IN = random.randrange(0,3)
 PIPE_IN = random.randrange(0,2)
 
-# start regulators
+# start virtual pipes regulators
 reached = False
 score_start = 0
 
