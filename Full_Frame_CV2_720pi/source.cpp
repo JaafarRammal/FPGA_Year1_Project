@@ -50,6 +50,10 @@ void flap_detector(volatile uint32_t* in_hand, uint16_t* mean_height, uint8_t co
 
 		}
 
-	*mean_height = total_height / pixel_number;
-
+	if(pixel_number == 0){
+		*mean_height = 0;
+	}
+	else{
+		*mean_height = total_height / pixel_number;
+	}
 }
