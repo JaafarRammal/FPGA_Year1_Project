@@ -22,7 +22,7 @@ void flap_detector(volatile uint32_t* in_hand, uint16_t* mean_height, uint8_t co
 	unsigned int total_height = 0;
 	unsigned int pixel_number = 0;
 
-	loop:for(int i = 0; i < 460799; i++){
+	loop:for(int i = 0; i < 460800; i++){
 
 			#pragma HLS PIPELINE II=2
 
@@ -39,11 +39,11 @@ void flap_detector(volatile uint32_t* in_hand, uint16_t* mean_height, uint8_t co
 					total_height += i/1280;
 					pixel_number ++;
 
-					in_hand[i+460799] = 0xFFFFFF;
+					in_hand[i+460800] = 0xFFFFFF;
 				}
 
 				else{
-					in_hand[i+460799] = 0;
+					in_hand[i+460800] = 0;
 				}
 			}
 
