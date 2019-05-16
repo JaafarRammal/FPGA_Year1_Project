@@ -10,7 +10,7 @@ Full Frame folders process the whole output frame. To add the game to the frame,
 
 ## Directories:
 - Full_Frame_CV2_1080pi: FPGA detection on 1080p. Game frame created and added by CPU with CV2
-- Full_Frame_CV2_720pi: FPGA detection on 720p. Game frame created and added by CPU with CV2 (USED VERSION). Includes final block design and schematic
+- Full_Frame_CV2_720pi: This is the currently used version. FPGA detection on 720p. Game frame created and added by CPU with CV2. Includes final block design and schematic
 - Full_Frame_in_game_720pi: FPGA detection on 720p. Game frame added by FPGA after being shared by CPU through MMIO
 - Green_Wrist_Detection: FPGA detection initial block test
 - Jupyter_Notebooks: backups of Jupyter notebooks
