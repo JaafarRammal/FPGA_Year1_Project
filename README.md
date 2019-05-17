@@ -1,4 +1,4 @@
-# FPGA_Year1_Project: Flappy Bird
+# Imperial College EIE-1: FPGA Flappy Bird
 
 Demo: https://www.youtube.com/watch?v=SYs0a26KYsg
 
