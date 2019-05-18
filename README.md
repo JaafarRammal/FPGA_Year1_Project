@@ -1,6 +1,6 @@
 # Imperial College EIE-1: FPGA Flappy Bird
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=SYs0a26KYsg)
+Demo: https://www.youtube.com/watch?v=SYs0a26KYsg
 
 ## Introduction
 
