@@ -28,7 +28,7 @@ Full Frame folders process the whole output frame. To add the game to the frame,
 - For the Jupyter Notebook use _./Jupyter_Notebooks/Game_v3.ipynb_
 - For the overlay use _./Full_Frame_CV2_720pi/game.bit_ and _./Full_Frame_CV2_720pi/game.tcl_ (do NOT use v2)
 - Print the green bracelets using the step file _/bracelets.step_ (best results with _ZIRO Fluo Green PLA_)
-- In the same notebook folder create a text file named _highscores.txt_ and initialized it manually with 3 lines of 0 (as in 0/n0/n0/n)
+- In the same notebook folder create a text file named _highscores.txt_ and initialize it manually with 3 lines of 0 (as in 0/n0/n0/n)
 - You are now ready to play!
 
 
