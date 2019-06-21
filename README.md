@@ -31,6 +31,8 @@ Full Frame folders process the whole output frame. To add the game to the frame,
 - In the same notebook folder create a text file named _highscores.txt_ and initialize it manually with 3 lines of 0 (as in 0/n0/n0/n)
 - You are now ready to play!
 
+PS: if you encounter problems with the highscore file or process, use the notebook _./Jupyter_Notebooks/Game_v2.ipynb_ as it runs the exact same game tools but without the highscore feature 
+
 
 
 ### How to play:
