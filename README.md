@@ -51,7 +51,7 @@ The game has a play mode and a settings mode, toggled by switch 0
 #### Settings mode:
 
 - Change difficulty with button 0 between easy, medium, and hard
-- Select with switch 1 if which treshold to change (_Color treshold_ for hands detection and _Height treshold_ for flap detection)
+- Select with switch 1 which treshold to change (_Color treshold_ for hands detection and _Height treshold_ for flap detection)
 - Use buttons 2/3 to increase/decrease the treshold value and button 1 to set it back to default
 - For the color treshold, the best result is when the whole detection background is black and only your bracelets are white
 - For the height treshold, you will be changing your "flap speed and range" (in other words how down you flap between two frames). A higher treshold means you have to flap stronger, faster, and on a large vertical distance to initiate the flap, and vice-versa. When changing the height treshold, you can test the flap by observing the 4 green LEDs on the board: these will blink when you flap
