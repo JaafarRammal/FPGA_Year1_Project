@@ -21,3 +21,9 @@ Full Frame folders process the whole output frame. To add the game to the frame,
 - Separate_Objects: 3 stages algorithm to distinghuish different bracelets of same color (a step to a multiplayer mode)
 - Skin_Detection: FPGA block for HSV skin detection
 
+## Using on your board:
+- For the Jupyter Notebook use ./Jupyter_Notebooks/Game_v3.ipynb
+- For the bitstream use /Full_Frame_CV2_720pi/game.bit
+- For the design use /Full_Frame_CV2_720pi/game.tcl
+- Print the green bracelets using the step file /bracelets.step (best results with _ZIRO Fluo Green PLA_)
+
