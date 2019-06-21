@@ -22,8 +22,41 @@ Full Frame folders process the whole output frame. To add the game to the frame,
 - Skin_Detection: FPGA block for HSV skin detection
 
 ## Using on your board:
-- For the Jupyter Notebook use ./Jupyter_Notebooks/Game_v3.ipynb
-- For the bitstream use /Full_Frame_CV2_720pi/game.bit
-- For the design use /Full_Frame_CV2_720pi/game.tcl
-- Print the green bracelets using the step file /bracelets.step (best results with _ZIRO Fluo Green PLA_)
+
+### Setting up: 
+
+- For the Jupyter Notebook use _./Jupyter_Notebooks/Game_v3.ipynb_
+- For the overlay use _./Full_Frame_CV2_720pi/game.bit_ and _./Full_Frame_CV2_720pi/game.tcl_
+- Print the green bracelets using the step file _/bracelets.step_ (best results with _ZIRO Fluo Green PLA_)
+- In the same notebook folder create a text file named _highscores.txt_ and initialized it manually with 3 lines of 0 (as in 0/n0/n0/n)
+- You are now ready to play!
+
+
+
+### How to play:
+
+- Run the notebook sections in order one by one. Allow for each section a reasonable runtime and check for any errors
+- When the game starts running, there is no more need for the laptop ethernet connection: you can unplug your board and keep it running by itself on power!
+
+The game has a play mode and a settings mode, toggled by switch 0
+
+#### Play mode:
+
+- Flap your hands to make the bird fly and avoid as many pipes as you can. That simple to use!
+- When you score a highscore, it will save for the next game session
+- You can check the detection on the bottom left screen. If the background presents white noise or your flap feels weird, jump to the settings mode to change the tresholds using switch 0
+- To force exit a game to the main menu, press button 1
+- To force exit the whole process, press button 0 (this will end the whole pynq board process)
+
+#### Settings mode:
+
+- Change difficulty with button 0 between easy, medium, and hard
+- Select with switch 1 if which treshold to change (_Color treshold_ for hands detection and _Height treshold_ for flap detection)
+- Use buttons 2/3 to increase/decrease the treshold value and button 1 to set it back to default
+- For the color treshold, the best result is when the whole detection background is black and only your bracelets are white
+- For the height treshold, you will be changing your "flap speed and range" (in other words how down you flap between two frames). A higher treshold means you have to flap stronger, faster, and on a large vertical distance to initiate the flap, and vice-versa. When changing the height treshold, you can test the flap by observing the 4 green LEDs on the board: these will blink when you flap
+- You are now ready to play! Jump to _play mode_ using switch 0
+
+
+
 
